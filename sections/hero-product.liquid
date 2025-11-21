@@ -35,7 +35,7 @@
 
       <div class="product-stage">
         <div class="product-image-container">
-          {{ 'product.png' | asset_url | image_tag: loading: 'eager', class: 'product-hero-image', alt: 'Jabruuuh One Product' }}
+          <img src="{{ 'product.png' | asset_url }}" loading="eager" class="product-hero-image" alt="Jabruuuh One Product">
         </div>
       </div>
     </div>

@@ -50,6 +50,17 @@
         "subheading": "Nous n'avons pas juste seulement mis un micro dans une boîte. Nous avons repensé l'architecture acoustique pour l'adapter aux environnements les plus exigeants en open-spaces"
       }
     },
+    "cinematic": {
+      "type": "product-detail-cinematic",
+      "settings": {
+        "heading": "Chaque détail compte.",
+        "description": "Du traitement du signal à la finition du châssis, rien n'a été laissé au hasard.",
+        "show_features": true,
+        "feature_1": "Grille perforée au laser pour une précision acoustique maximale",
+        "feature_2": "Pieds en silicone haute densité pour isolation vibratoire",
+        "feature_3": "Finition anodisée résistante aux rayures et empreintes"
+      }
+    },
     "bento": {
       "type": "bento-marketing",
       "blocks": {
@@ -122,6 +133,7 @@
   "order": [
     "hero",
     "specs",
+    "cinematic",
     "bento",
     "comparison",
     "pricing"

@@ -22,7 +22,9 @@
 
           {% comment %} Decorative element {% endcomment %}
           {% if block.settings.show_decoration %}
-            <div class="bento-decoration"></div>
+            <div class="bento-decoration">
+              <img src="{{ 'top-view-product.png' | asset_url }}" alt="Product detail" loading="lazy">
+            </div>
           {% endif %}
 
           {% comment %} Optional image {% endcomment %}
@@ -45,7 +47,7 @@
   }
 
   .bento-section .container {
-    max-width: 80rem;
+    max-width: 70rem;
   }
 
   .bento-grid {
@@ -104,10 +106,17 @@
     bottom: -50px;
     width: 300px;
     height: 300px;
-    background: #e5e5e5;
     border-radius: 50%;
-    opacity: 0.5;
+    opacity: 0.6;
     pointer-events: none;
+    overflow: hidden;
+  }
+
+  .bento-decoration img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .bento-image {
