@@ -1,0 +1,25 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "max_page_width": "90rem",
+    "min_page_margin": 24,
+    "section_spacing": 100,
+    "border_radius": 24,
+    "color_background": "#FFFFFF",
+    "color_background_secondary": "#F5F5F7",
+    "color_text_primary": "#1D1D1F",
+    "color_text_secondary": "#86868B",
+    "color_accent": "#0071E3",
+    "color_accent_hover": "#0077ED",
+    "color_badge": "#BF4800",
+    "color_border": "#D2D2D7"
+  }
+}

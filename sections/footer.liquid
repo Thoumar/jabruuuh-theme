@@ -1,0 +1,194 @@
+{% comment %}
+  Apple-inspired footer
+{% endcomment %}
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        {{ section.settings.brand_text | default: 'Jabruuuh.' }}
+      </div>
+      <div class="footer-tagline">
+        {{ section.settings.tagline | default: 'Designed in Paris.' }}
+      </div>
+    </div>
+
+    <div class="footer-middle">
+      {% if section.settings.menu.links.size > 0 %}
+        <nav class="footer-nav">
+          {% for link in section.settings.menu.links %}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {% endfor %}
+        </nav>
+      {% endif %}
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        <p>
+          Copyright © {{ 'now' | date: '%Y' }} {{ shop.name }}. Tous droits réservés.
+        </p>
+        {% if section.settings.show_disclaimer %}
+          <p class="footer-disclaimer">
+            {{ section.settings.disclaimer_text }}
+          </p>
+        {% endif %}
+      </div>
+
+      {% if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 %}
+        <div class="footer-payment">
+          {% for type in shop.enabled_payment_types %}
+            {{ type | payment_type_svg_tag }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</footer>
+
+{% stylesheet %}
+  .site-footer {
+    background: var(--color-background-secondary);
+    padding: 60px 0;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin-top: auto;
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .footer-brand {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-foreground);
+  }
+
+  .footer-tagline {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+  }
+
+  .footer-middle {
+    margin-bottom: 30px;
+  }
+
+  .footer-nav {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .footer-nav a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-nav a:hover {
+    color: var(--color-foreground);
+  }
+
+  .footer-bottom {
+    text-align: center;
+  }
+
+  .footer-copyright p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+
+  .footer-disclaimer {
+    font-size: 0.75rem;
+    color: #999;
+    max-width: 800px;
+    margin: 10px auto 0;
+  }
+
+  .footer-payment {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .footer-payment svg {
+    width: 40px;
+    height: auto;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 768px) {
+    .site-footer {
+      padding: 40px 0 30px;
+    }
+
+    .footer-top {
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .footer-nav {
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .footer-disclaimer {
+      font-size: 0.7rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand_text",
+      "label": "Brand text",
+      "default": "Jabruuuh."
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Designed in Paris."
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Footer menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_disclaimer",
+      "label": "Show disclaimer",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer_text",
+      "label": "Disclaimer text",
+      "default": "Jabra est une marque déposée de GN Audio A/S. Jabruuuh n'est pas affilié à GN Audio A/S. Les comparaisons techniques sont basées sur les fiches techniques publiques."
+    }
+  ]
+}
+{% endschema %}

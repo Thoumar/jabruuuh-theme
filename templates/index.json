@@ -1,0 +1,129 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-product",
+      "settings": {
+        "show_badge": true,
+        "badge_text": "Nouveau",
+        "heading": "Dominez vos réunions",
+        "subtitle": "La qualité d'un studio d'enregistrement dans la paume de votre main. Envoloppeé dans un aluminium de qualité aérospatial",
+        "primary_cta": "Commander le Jabruuuh One",
+        "secondary_cta": "Pourquoi la concurrence est dans notre retroviseur ?"
+      }
+    },
+    "specs": {
+      "type": "product-specs",
+      "blocks": {
+        "spec_1": {
+          "type": "spec",
+          "settings": {
+            "value": "8",
+            "value_color": "#0071E3",
+            "label": "Micros Beamforming",
+            "description": "Matrice de microphones omnidirectionnels qui isole la voix humaine et rejette le bruit ambiant."
+          }
+        },
+        "spec_2": {
+          "type": "spec",
+          "settings": {
+            "value": "Hi-Fi",
+            "label": "Haut-Parleur Néodyme",
+            "description": "Un driver de 50mm optimisé pour les fréquences vocales (150Hz - 6.8kHz). Plus de voix nasillardes."
+          }
+        },
+        "spec_3": {
+          "type": "spec",
+          "settings": {
+            "value": "IA",
+            "label": "Neural Cancellation",
+            "description": "Processeur dédié qui supprime les bruits de frappe clavier et les échos en temps réel."
+          }
+        }
+      },
+      "block_order": [
+        "spec_1",
+        "spec_2",
+        "spec_3"
+      ],
+      "settings": {
+        "heading": "De l'ingeénieurie brute dans le creux de votre main",
+        "subheading": "Nous n'avons pas juste seulement mis un micro dans une boîte. Nous avons repensé l'architecture acoustique pour l'adapter aux environnements les plus exigeants en open-spaces"
+      }
+    },
+    "bento": {
+      "type": "bento-marketing",
+      "blocks": {
+        "bento_1": {
+          "type": "bento_box",
+          "settings": {
+            "grid_size": "large",
+            "heading": "Design Unibody.",
+            "description": "Fini le plastique qui craque. Le châssis en aluminium anodisé dissipe la chaleur et élimine les vibrations parasites.",
+            "background_color": "#F5F5F7",
+            "text_color": "#1D1D1F",
+            "show_decoration": true
+          }
+        },
+        "bento_2": {
+          "type": "bento_box",
+          "settings": {
+            "grid_size": "small",
+            "heading": "Connexion éclair.",
+            "description": "Bluetooth 5.3 ou USB-C. Connecté en 2 secondes chrono.",
+            "background_color": "#F5F5F7",
+            "text_color": "#1D1D1F",
+            "show_decoration": false
+          }
+        },
+        "bento_3": {
+          "type": "bento_box",
+          "settings": {
+            "grid_size": "small",
+            "heading": "Certifié partout.",
+            "description": "Teams, Zoom, Meet. Il fonctionne avec tout votre écosystème.",
+            "background_color": "#E8F2FF",
+            "text_color": "#0071E3",
+            "show_decoration": false
+          }
+        }
+      },
+      "block_order": [
+        "bento_1",
+        "bento_2",
+        "bento_3"
+      ],
+      "settings": {}
+    },
+    "comparison": {
+      "type": "comparison-table",
+      "settings": {
+        "heading": "Le rapport de force a changé.",
+        "subheading": "Pourquoi payer une technologie héritée au prix fort ?",
+        "competitor_name": "Leader du marché (Série 750)",
+        "our_product_name": "Jabruuuh One",
+        "competitor_price": "450 € HT",
+        "our_price": "300 € HT"
+      }
+    },
+    "pricing": {
+      "type": "pricing-cta",
+      "settings": {
+        "heading": "Investissez dans la clarté.",
+        "fallback_price": "300 €",
+        "roi_text": "Le coût d'une réunion ratée à cause de l'audio dépasse largement le prix de cet appareil.",
+        "cta_text": "Commandez pour votre entreprise",
+        "show_trust_badges": true,
+        "trust_badge_1": "Livraison J+1 offerte",
+        "trust_badge_2": "Garantie Pro 3 ans",
+        "trust_badge_3": "Retour 30 jours"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "specs",
+    "bento",
+    "comparison",
+    "pricing"
+  ]
+}

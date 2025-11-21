@@ -1,0 +1,41 @@
+{% comment %}
+  Scroll animations using IntersectionObserver
+  Triggers fade-in effects on elements with .fade-in class
+{% endcomment %}
+
+<script>
+  /**
+   * Intersection Observer for scroll-triggered animations
+   * Watches for elements with the 'fade-in' class and adds 'visible' when they enter viewport
+   */
+  document.addEventListener('DOMContentLoaded', function() {
+    // Observer options
+    const observerOptions = {
+      root: null, // viewport
+      rootMargin: '0px',
+      threshold: 0.1 // trigger when 10% of element is visible
+    };
+
+    // Callback when intersection changes
+    const observerCallback = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Add 'visible' class to trigger CSS animation
+          entry.target.classList.add('visible');
+
+          // Unobserve after animating (performance optimization)
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    // Create observer
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe all elements with 'fade-in' class
+    const fadeInElements = document.querySelectorAll('.fade-in');
+    fadeInElements.forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>

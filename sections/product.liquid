@@ -1,0 +1,460 @@
+{% comment %}
+  Enhanced product section with Apple-inspired design
+  https://shopify.dev/docs/storefronts/themes/architecture/templates/product
+{% endcomment %}
+
+<section class="product-page">
+  <div class="container">
+    <div class="product-layout">
+      {% comment %} Product Images Gallery {% endcomment %}
+      <div class="product-gallery">
+        <div class="product-main-image">
+          {% if product.featured_image %}
+            {{ product.featured_image | image_url: width: 800 | image_tag: loading: 'eager', class: 'main-image', id: 'main-product-image' }}
+          {% else %}
+            <div class="placeholder-image">
+              <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
+                <rect width="200" height="200" fill="#f5f5f7"/>
+                <text x="100" y="100" text-anchor="middle" fill="#86868b" font-size="14">No image</text>
+              </svg>
+            </div>
+          {% endif %}
+        </div>
+
+        {% if product.images.size > 1 %}
+          <div class="product-thumbnails">
+            {% for image in product.images %}
+              <button
+                class="thumbnail {% if forloop.first %}active{% endif %}"
+                type="button"
+                onclick="changeMainImage('{{ image | image_url: width: 800 }}', this)"
+              >
+                {{ image | image_url: width: 150 | image_tag: loading: 'lazy' }}
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Product Info & Form {% endcomment %}
+      <div class="product-details">
+        <div class="product-header">
+          {% if product.vendor != blank %}
+            <p class="product-vendor">{{ product.vendor }}</p>
+          {% endif %}
+
+          <h1 class="product-title">{{ product.title }}</h1>
+
+          <div class="product-price">
+            <span class="price-current">{{ product.selected_or_first_available_variant.price | money }}</span>
+            {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+              <span class="price-compare">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+            {% endif %}
+          </div>
+
+          {% comment %} Reviews placeholder - will be populated by Judge.me or similar {% endcomment %}
+          <div class="product-reviews-badge" id="product-reviews-badge">
+            {% comment %} Judge.me widget will render here {% endcomment %}
+          </div>
+        </div>
+
+        <div class="product-description">
+          {{ product.description }}
+        </div>
+
+        {% comment %} Product Form with Variants {% endcomment %}
+        <div class="product-form-container">
+          {% form 'product', product, id: 'product-form' %}
+            {% assign current_variant = product.selected_or_first_available_variant %}
+
+            {% comment %} Variant Selection {% endcomment %}
+            {% unless product.has_only_default_variant %}
+              <div class="product-variants">
+                {% for option in product.options_with_values %}
+                  <div class="variant-option">
+                    <label class="variant-label">{{ option.name }}</label>
+                    <div class="variant-buttons">
+                      {% for value in option.values %}
+                        <input
+                          type="radio"
+                          name="option-{{ option.position }}"
+                          value="{{ value | escape }}"
+                          id="option-{{ option.position }}-{{ forloop.index }}"
+                          {% if option.selected_value == value %}checked{% endif %}
+                        >
+                        <label for="option-{{ option.position }}-{{ forloop.index }}" class="variant-button">
+                          {{ value }}
+                        </label>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endfor %}
+
+                <select name="id" id="variant-select" class="hidden">
+                  {% for variant in product.variants %}
+                    <option
+                      value="{{ variant.id }}"
+                      {% if variant == current_variant %}selected{% endif %}
+                      {% unless variant.available %}disabled{% endunless %}
+                    >
+                      {{ variant.title }} - {{ variant.price | money }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% else %}
+              <input type="hidden" name="id" value="{{ current_variant.id }}">
+            {% endunless %}
+
+            {% comment %} Quantity & Add to Cart {% endcomment %}
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <label for="quantity">Quantité</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1">
+              </div>
+
+              <button
+                type="submit"
+                name="add"
+                class="btn btn-primary btn-large add-to-cart-btn"
+                {% unless current_variant.available %}disabled{% endunless %}
+              >
+                {% if current_variant.available %}
+                  Ajouter au panier
+                {% else %}
+                  Épuisé
+                {% endif %}
+              </button>
+
+              {{ form | payment_button }}
+            </div>
+          {% endform %}
+        </div>
+
+        {% comment %} Additional Product Info {% endcomment %}
+        {% if section.settings.show_additional_info %}
+          <div class="product-additional-info">
+            <div class="info-item">
+              <svg width="20" height="20" fill="currentColor"><use href="#icon-shipping"/></svg>
+              <span>{{ section.settings.shipping_text }}</span>
+            </div>
+            <div class="info-item">
+              <svg width="20" height="20" fill="currentColor"><use href="#icon-returns"/></svg>
+              <span>{{ section.settings.returns_text }}</span>
+            </div>
+            <div class="info-item">
+              <svg width="20" height="20" fill="currentColor"><use href="#icon-warranty"/></svg>
+              <span>{{ section.settings.warranty_text }}</span>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% comment %} Reviews Section {% endcomment %}
+    {% if section.settings.show_reviews %}
+      <div class="product-reviews-section" id="product-reviews">
+        <h3>Avis clients</h3>
+        {% comment %} Judge.me or similar review app widget will render here {% endcomment %}
+        <p class="reviews-placeholder">Les avis clients seront affichés ici une fois l'application d'avis installée (Judge.me recommandé).</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .product-page {
+    padding: 60px 0 var(--section-spacing);
+    background: var(--color-background);
+  }
+
+  .product-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  /* Gallery Styles */
+  .product-gallery {
+    position: sticky;
+    top: 80px;
+  }
+
+  .product-main-image {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    margin-bottom: 20px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 12px;
+  }
+
+  .thumbnail {
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    background: var(--color-background-secondary);
+    transition: all 0.2s;
+    aspect-ratio: 1;
+  }
+
+  .thumbnail:hover,
+  .thumbnail.active {
+    border-color: var(--color-accent);
+  }
+
+  .thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Product Details */
+  .product-vendor {
+    color: var(--color-accent);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .product-title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .product-price {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .price-current {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+
+  .price-compare {
+    font-size: 1.5rem;
+    color: var(--color-text-secondary);
+    text-decoration: line-through;
+  }
+
+  .product-description {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    font-size: 1.05rem;
+  }
+
+  /* Variant Selection */
+  .product-variants {
+    margin-bottom: 30px;
+  }
+
+  .variant-option {
+    margin-bottom: 24px;
+  }
+
+  .variant-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+  }
+
+  .variant-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .variant-buttons input[type="radio"] {
+    display: none;
+  }
+
+  .variant-button {
+    padding: 10px 20px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+  }
+
+  .variant-buttons input:checked + .variant-button {
+    border-color: var(--color-accent);
+    background: rgba(0, 113, 227, 0.05);
+    color: var(--color-accent);
+  }
+
+  .variant-button:hover {
+    border-color: var(--color-accent);
+  }
+
+  /* Product Actions */
+  .product-actions {
+    margin-bottom: 30px;
+  }
+
+  .quantity-selector {
+    margin-bottom: 16px;
+  }
+
+  .quantity-selector label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+
+  .quantity-selector input {
+    width: 100px;
+    padding: 12px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+  }
+
+  .add-to-cart-btn {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .add-to-cart-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .shopify-payment-button {
+    margin-top: 12px;
+  }
+
+  /* Additional Info */
+  .product-additional-info {
+    border-top: 1px solid var(--color-border);
+    padding-top: 24px;
+    margin-top: 24px;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+  }
+
+  /* Reviews Section */
+  .product-reviews-section {
+    margin-top: 80px;
+    padding-top: 60px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .product-reviews-section h3 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+
+  .reviews-placeholder {
+    color: var(--color-text-secondary);
+    font-style: italic;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .product-layout {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .product-gallery {
+      position: static;
+    }
+
+    .product-title {
+      font-size: 2rem;
+    }
+
+    .price-current {
+      font-size: 1.75rem;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  function changeMainImage(imageUrl, thumbnail) {
+    document.getElementById('main-product-image').src = imageUrl;
+    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+    thumbnail.classList.add('active');
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show reviews section",
+      "default": true,
+      "info": "Install Judge.me or similar review app for full functionality"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_additional_info",
+      "label": "Show additional info",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shipping_text",
+      "label": "Shipping text",
+      "default": "Livraison gratuite en 24-48h"
+    },
+    {
+      "type": "text",
+      "id": "returns_text",
+      "label": "Returns text",
+      "default": "Retours gratuits sous 30 jours"
+    },
+    {
+      "type": "text",
+      "id": "warranty_text",
+      "label": "Warranty text",
+      "default": "Garantie professionnelle 3 ans"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

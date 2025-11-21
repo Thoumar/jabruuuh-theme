@@ -1,0 +1,42 @@
+{% comment %}
+  Judge.me Reviews Integration
+
+  To activate:
+  1. Install Judge.me app from Shopify App Store
+  2. Judge.me will automatically inject their widgets into your theme
+  3. This snippet provides a placeholder structure
+
+  Documentation: https://judge.me/
+{% endcomment %}
+
+<div class="judgeme-placeholder">
+  <div class="review-widget-placeholder">
+    <p style="color: var(--color-text-secondary); font-size: 0.95rem;">
+      📦 Reviews will appear here once Judge.me is installed and configured.
+    </p>
+    <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-top: 8px;">
+      Install Judge.me from the Shopify App Store to enable product reviews.
+    </p>
+  </div>
+</div>
+
+<style>
+  .judgeme-placeholder {
+    padding: 40px 20px;
+    text-align: center;
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius);
+    margin: 20px 0;
+  }
+
+  .review-widget-placeholder {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* When Judge.me is installed, these classes will be used */
+  .jdgm-widget,
+  .jdgm-preview-badge {
+    /* Judge.me will apply their own styles */
+  }
+</style>

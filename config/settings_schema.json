@@ -1,0 +1,148 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Jabruuuh Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "Jabruuuh",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Fonts"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_primary_font",
+        "default": "assistant_n4",
+        "label": "Primary font",
+        "info": "Inter or system fonts recommended for Apple aesthetic"
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "max_page_width",
+        "label": "Page width",
+        "options": [
+          {
+            "value": "90rem",
+            "label": "Narrow (1440px)"
+          },
+          {
+            "value": "110rem",
+            "label": "Wide (1760px)"
+          }
+        ],
+        "default": "90rem"
+      },
+      {
+        "type": "range",
+        "id": "min_page_margin",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Page margin",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "section_spacing",
+        "min": 40,
+        "max": 200,
+        "step": 10,
+        "unit": "px",
+        "label": "Section spacing",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Background Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "default": "#FFFFFF",
+        "label": "Primary background"
+      },
+      {
+        "type": "color",
+        "id": "color_background_secondary",
+        "default": "#F5F5F7",
+        "label": "Secondary background",
+        "info": "Used for alternate sections"
+      },
+      {
+        "type": "header",
+        "content": "Text Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_text_primary",
+        "default": "#1D1D1F",
+        "label": "Primary text"
+      },
+      {
+        "type": "color",
+        "id": "color_text_secondary",
+        "default": "#86868B",
+        "label": "Secondary text"
+      },
+      {
+        "type": "header",
+        "content": "Accent Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "default": "#0071E3",
+        "label": "Accent color"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_hover",
+        "default": "#0077ED",
+        "label": "Accent hover"
+      },
+      {
+        "type": "color",
+        "id": "color_badge",
+        "default": "#BF4800",
+        "label": "Badge color",
+        "info": "Used for 'New' badges"
+      },
+      {
+        "type": "header",
+        "content": "Border & UI"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "default": "#D2D2D7",
+        "label": "Border color"
+      },
+      {
+        "type": "range",
+        "id": "border_radius",
+        "min": 0,
+        "max": 30,
+        "step": 2,
+        "unit": "px",
+        "label": "Border radius",
+        "default": 24
+      }
+    ]
+  }
+]

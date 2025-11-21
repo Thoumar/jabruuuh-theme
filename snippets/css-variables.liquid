@@ -1,0 +1,47 @@
+{% style %}
+  {% # Loads all font variantions with display: swap %}
+  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
+  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+
+  :root {
+    /* Colors - Connected to theme settings */
+    --color-background: {{ settings.color_background | default: '#FFFFFF' }};
+    --color-background-secondary: {{ settings.color_background_secondary | default: '#F5F5F7' }};
+    --color-foreground: {{ settings.color_text_primary | default: '#1D1D1F' }};
+    --color-text-secondary: {{ settings.color_text_secondary | default: '#86868B' }};
+    --color-accent: {{ settings.color_accent | default: '#0071E3' }};
+    --color-accent-hover: {{ settings.color_accent_hover | default: '#0077ED' }};
+    --color-badge: {{ settings.color_badge | default: '#BF4800' }};
+    --color-border: {{ settings.color_border | default: '#D2D2D7' }};
+
+    /* Layout */
+    --page-width: {{ settings.max_page_width | default: '90rem' }};
+    --page-margin: {{ settings.min_page_margin | default: 24 }}px;
+    --section-spacing: {{ settings.section_spacing | default: 100 }}px;
+    --border-radius: {{ settings.border_radius | default: 24 }}px;
+    --style-border-radius-inputs: {{ settings.border_radius | default: 24 }}px;
+
+    /* Typography */
+    --font-primary--family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+    --font-primary--weight: {{ settings.type_primary_font.weight | default: 400 }};
+
+    /* Spacing System */
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 24px;
+    --spacing-lg: 40px;
+    --spacing-xl: 60px;
+    --spacing-xxl: 100px;
+
+    /* Shadows */
+    --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.02);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+    /* Transitions */
+    --transition-smooth: ease;
+    --transition-duration: 0.3s;
+  }
+{% endstyle %}
