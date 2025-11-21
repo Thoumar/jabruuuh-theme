@@ -6,19 +6,25 @@
 <section class="product-page">
   <div class="container">
     <div class="product-layout">
-      {% comment %} Product Images Gallery {% endcomment %}
+      {% comment %} Product Media Gallery (Images & Videos) {% endcomment %}
       <div class="product-gallery">
-        <div class="product-main-image">
-          {% if product.featured_image %}
-            <img
-              id="main-product-image"
-              class="main-image"
-              src="{{ product.featured_image | image_url: width: 800 }}"
-              alt="{{ product.featured_image.alt | default: product.title }}"
-              loading="eager"
-              width="800"
-              height="800"
-            >
+        <div class="product-main-image" id="main-media-container">
+          {% if product.featured_media %}
+            {% if product.featured_media.media_type == 'image' %}
+              <img
+                id="main-product-image"
+                class="main-image"
+                src="{{ product.featured_media | image_url: width: 800 }}"
+                alt="{{ product.featured_media.alt | default: product.title }}"
+                loading="eager"
+                width="800"
+                height="800"
+              >
+            {% elsif product.featured_media.media_type == 'video' or product.featured_media.media_type == 'external_video' %}
+              <div id="main-product-video" class="main-video">
+                {{ product.featured_media | media_tag: image_size: '800x', autoplay: true, loop: true, controls: true }}
+              </div>
+            {% endif %}
           {% else %}
             <div class="placeholder-image">
               <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
@@ -29,21 +35,39 @@
           {% endif %}
         </div>
 
-        {% if product.images.size > 1 %}
+        {% if product.media.size > 1 %}
           <div class="product-thumbnails">
-            {% for image in product.images %}
+            {% for media in product.media %}
               <button
                 class="thumbnail {% if forloop.first %}active{% endif %}"
                 type="button"
-                onclick="changeMainImage('{{ image | image_url: width: 800 }}', this)"
+                data-media-type="{{ media.media_type }}"
+                data-media-id="{{ media.id }}"
+                onclick="changeMainMedia({{ media.id }}, '{{ media.media_type }}', this)"
               >
-                <img
-                  src="{{ image | image_url: width: 150 }}"
-                  alt="{{ image.alt | default: product.title }}"
-                  loading="lazy"
-                  width="150"
-                  height="150"
-                >
+                {% if media.media_type == 'image' %}
+                  <img
+                    src="{{ media | image_url: width: 150 }}"
+                    alt="{{ media.alt | default: product.title }}"
+                    loading="lazy"
+                    width="150"
+                    height="150"
+                  >
+                {% elsif media.media_type == 'video' or media.media_type == 'external_video' %}
+                  <div class="video-thumbnail">
+                    <img
+                      src="{{ media.preview_image | image_url: width: 150 }}"
+                      alt="{{ media.alt | default: product.title }}"
+                      loading="lazy"
+                      width="150"
+                      height="150"
+                    >
+                    <svg class="play-icon" width="30" height="30" viewBox="0 0 30 30" fill="white">
+                      <circle cx="15" cy="15" r="15" fill="rgba(0,0,0,0.6)"/>
+                      <polygon points="12,9 12,21 21,15" fill="white"/>
+                    </svg>
+                  </div>
+                {% endif %}
               </button>
             {% endfor %}
           </div>
@@ -176,19 +200,55 @@
   </div>
 </section>
 
+{% comment %} Store media data in JSON for JavaScript {% endcomment %}
 <script>
-  function changeMainImage(imageUrl, thumbnail) {
-    const mainImage = document.getElementById('main-product-image');
-    if (mainImage) {
-      mainImage.src = imageUrl;
+  const productMedia = {
+    {% for media in product.media %}
+      "{{ media.id }}": {
+        type: "{{ media.media_type }}",
+        {% if media.media_type == 'image' %}
+          imageUrl: "{{ media | image_url: width: 800 }}",
+          alt: "{{ media.alt | default: product.title | escape }}"
+        {% elsif media.media_type == 'video' or media.media_type == 'external_video' %}
+          html: {{ media | media_tag: image_size: '800x', autoplay: true, loop: true, controls: true | json }}
+        {% endif %}
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  };
 
-      // Remove active class from all thumbnails
-      document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+  function changeMainMedia(mediaId, mediaType, thumbnail) {
+    const container = document.getElementById('main-media-container');
+    const media = productMedia[mediaId];
 
-      // Add active class to clicked thumbnail
-      if (thumbnail) {
-        thumbnail.classList.add('active');
-      }
+    if (!container || !media) return;
+
+    // Clear container
+    container.innerHTML = '';
+
+    // Add the appropriate media element
+    if (media.type === 'image') {
+      const img = document.createElement('img');
+      img.id = 'main-product-image';
+      img.className = 'main-image';
+      img.src = media.imageUrl;
+      img.alt = media.alt;
+      img.width = 800;
+      img.height = 800;
+      container.appendChild(img);
+    } else if (media.type === 'video' || media.type === 'external_video') {
+      const videoDiv = document.createElement('div');
+      videoDiv.id = 'main-product-video';
+      videoDiv.className = 'main-video';
+      videoDiv.innerHTML = media.html;
+      container.appendChild(videoDiv);
+    }
+
+    // Remove active class from all thumbnails
+    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+
+    // Add active class to clicked thumbnail
+    if (thumbnail) {
+      thumbnail.classList.add('active');
     }
   }
 </script>
@@ -233,6 +293,21 @@
     object-fit: cover;
   }
 
+  .main-video {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .main-video video,
+  .main-video iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   .product-thumbnails {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
@@ -259,6 +334,26 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .video-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .video-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
   }
 
   /* Product Details */

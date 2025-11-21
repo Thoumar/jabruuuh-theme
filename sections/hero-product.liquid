@@ -28,14 +28,17 @@
           </a>
         {% endif %}
 
-        <a href="#compare" class="btn btn-text">
-          {{ section.settings.secondary_cta }} →
-        </a>
+        <a href="#compare" class="btn btn-text"> {{ section.settings.secondary_cta }} → </a>
       </div>
 
       <div class="product-stage">
         <div class="product-image-container">
-          <img src="{{ 'product.png' | asset_url }}" loading="eager" class="product-hero-image" alt="Jabruuuh One Product">
+          <img
+            src="{{ 'product.png' | asset_url }}"
+            loading="eager"
+            class="product-hero-image"
+            alt="Jabruuuh One Product"
+          >
         </div>
       </div>
     </div>
@@ -88,7 +91,6 @@
     flex-wrap: wrap;
   }
 
-
   .product-stage {
     margin-top: 60px;
     position: relative;
@@ -115,9 +117,7 @@
     height: 380px;
     background: radial-gradient(circle at 30% 30%, #f0f0f0, #dcdcdc);
     border-radius: 50%;
-    box-shadow:
-      0 20px 40px rgba(0, 0, 0, 0.1),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.5),
       inset 0 0 60px rgba(0, 0, 0, 0.05);
     position: relative;
     display: flex;
@@ -210,19 +210,19 @@
       "type": "textarea",
       "id": "subtitle",
       "label": "Subtitle",
-      "default": "La qualité d'un studio d'enregistrement dans la paume de votre main. Envoloppeé dans un aluminium de qualité aérospatial"
+      "default": "La qualité d'un studio d'enregistrement à porté de main."
     },
     {
       "type": "text",
       "id": "primary_cta",
       "label": "Primary CTA text",
-      "default": "Commander le Jabruuuh One"
+      "default": "Commander"
     },
     {
       "type": "text",
       "id": "secondary_cta",
       "label": "Secondary CTA text",
-      "default": "Pourquoi la concurrence est dans notre retroviseur ?"
+      "default": "Pourquoi la concu est dans le retro ?"
     },
     {
       "type": "image_picker",

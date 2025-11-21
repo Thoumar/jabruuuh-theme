@@ -14,7 +14,10 @@
     <div class="specs-grid fade-in">
       {% for block in section.blocks %}
         <div class="spec-card" {{ block.shopify_attributes }}>
-          <div class="spec-value" style="{% if block.settings.value_color %}color: {{ block.settings.value_color }};{% endif %}">
+          <div
+            class="spec-value"
+            style="{% if block.settings.value_color %}color: {{ block.settings.value_color }};{% endif %}"
+          >
             {{ block.settings.value }}
           </div>
           <div class="spec-label">{{ block.settings.label }}</div>
@@ -116,7 +119,7 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "De l'ingeénieurie brute dans le creux de votre main"
+      "default": "Du génie tout simplement"
     },
     {
       "type": "textarea",
